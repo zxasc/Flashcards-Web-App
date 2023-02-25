@@ -11,7 +11,7 @@ export default function RememberingMode(props) {
      // Every time answers changes set a new currentFlashcard
      useEffect(() => {
         if(answers.main.length > 0) {
-            newCurrentFlashcard()
+            newCurrentFlashcard();
         }
     }, [val]);
 
@@ -54,6 +54,9 @@ export default function RememberingMode(props) {
     const continueSession = function() {
         let sessionJSON = localStorage.getItem(`${props.selectedFlashcardSet.setTitle}${props.selectedFlashcardSet.setId}remembering`);
         let sessionParsed = JSON.parse(sessionJSON);
+        if ((sessionParsed.answers.main.length == 0)&&(sessionParsed.answers.wrong.length > 0)) {
+            sessionParsed.answers.main = sessionParsed.answers.wrong;
+        };
         setAnswers(sessionParsed.answers);
         setIsStudying(true);
         setVal(prev => prev+1);

@@ -64,6 +64,9 @@ export default function TypingMode(props) {
     const continueSession = function() {
         let sessionJSON = localStorage.getItem(`${props.selectedFlashcardSet.setTitle}${props.selectedFlashcardSet.setId}typing`);
         let sessionParsed = JSON.parse(sessionJSON);
+        if ((sessionParsed.answers.main.length == 0)&&(sessionParsed.answers.wrong.length > 0)) {
+            sessionParsed.answers.main = sessionParsed.answers.wrong;
+        };
         setAnswers(sessionParsed.answers);
         setIsStudying(true);
         setVal(prev => prev+1);
